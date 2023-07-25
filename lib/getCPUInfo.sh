@@ -1,13 +1,16 @@
 #! /bin/bash
-source globalVariable.sh
+#source globalVariable.sh
 
 #echo System IP is $SUP_IP;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CPUs>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getCPUInfo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
 echo;
 dmidecode -t processor;
 echo;
-echo;
-echo -n "Socket enabled under /proc/cpuinfo: ";
+echo "---";
+echo -n "Socket enabled in /proc/cpuinfo: ";
 cat /proc/cpuinfo| grep processor | wc -l;
 echo;
-echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<CPUs<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getCPUInfo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo;
+echo;
+echo;
