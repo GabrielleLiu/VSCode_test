@@ -13,7 +13,7 @@ function menu {
     read -n 1 option
 }
 
-function option1_configCheck {
+function option1 {
     clear
     config_build
 }
