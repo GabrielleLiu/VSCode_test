@@ -1,14 +1,6 @@
 #! /bin/bash
 
-SUP_IP='172.31.20.26'
+SUP_IP="172.31.20.26" # ipmitool, Redfish
 
-Log_PATH='/usr/local/bin/sh_logs'
+SCRIPT_PATH="/usr/local/bin/" # absolutely path of VSCode_test
 
-function createNewLog() {
-    echo "------------------------------------------------------------------------------";
-    echo "------------------------------------------------------------------------------";
-    echo "Copyright (c) 2023 Foxconn. All Rights Reserved.";
-    echo "For Athena Project System Test";
-    echo "------------------------------------------------------------------------------";
-    echo "------------------------------------------------------------------------------";
-}
