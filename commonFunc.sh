@@ -11,48 +11,54 @@ function newLogTitle() {
     echo "------------------------------------------------------------------------------";
 }
 
+# config_build $1 $2
+# $1 : 1=no BIOS log, 2=no BMC log
+# $2 : assign log file name
 function config_build() {
-    # $1=0 or other, get all log(default)
-    # $1=1 no BIOS log
-    # $1=2, no BMC log
-    newLogTitle > originalConfig.log
-    if [ $1 -eq 1 ]; then
-        #echo no BIOS log;
-        #./getConfigurations/getBIOSVersion.sh >> originalConfig.log
-        ./getConfigurations/getBMCVersion.sh >> originalConfig.log
-        ./getConfigurations/getBootDevice.sh >> originalConfig.log
-        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
-        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
-        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
-        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
-        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
-        ./getConfigurations/getNICInfo.sh >> originalConfig.log
-        ./getConfigurations/getSensorInfo.sh >> originalConfig.log    
 
-    elif [ $1 -eq 2 ]; then
+    fileName="originalConfig.log";
+    if [ -n "$2" ]; then
+        fileName="$2";
+    fi
+
+    newLogTitle > $fileName
+    if [ -n "$1" ] && [ $1 -eq 1 ]; then
+        #echo no BIOS log;
+        #./getConfigurations/getBIOSVersion.sh >> $fileName
+        ./getConfigurations/getBMCVersion.sh >> $fileName
+        ./getConfigurations/getBootDevice.sh >> $fileName
+        ./getConfigurations/getCPUInfo.sh >> $fileName
+        ./getConfigurations/getgsysVersion.sh >> $fileName
+        ./getConfigurations/getKernelVersion.sh >> $fileName
+        ./getConfigurations/getMemoryInfo.sh >> $fileName
+        ./getConfigurations/getMotherBoardInfo.sh >> $fileName
+        ./getConfigurations/getNICInfo.sh >> $fileName
+        ./getConfigurations/getSensorInfo.sh >> $fileName  
+
+    elif [ -n "$1" ] && [ $1 -eq 2 ]; then
         #echo no BMC log;
-        ./getConfigurations/getBIOSVersion.sh >> originalConfig.log
-        #./getConfigurations/getBMCVersion.sh >> originalConfig.log
-        ./getConfigurations/getBootDevice.sh >> originalConfig.log
-        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
-        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
-        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
-        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
-        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
-        ./getConfigurations/getNICInfo.sh >> originalConfig.log
-        ./getConfigurations/getSensorInfo.sh >> originalConfig.log    
+        ./getConfigurations/getBIOSVersion.sh >> $fileName
+        #./getConfigurations/getBMCVersion.sh >> $fileName
+        ./getConfigurations/getBootDevice.sh >> $fileName
+        ./getConfigurations/getCPUInfo.sh >> $fileName
+        ./getConfigurations/getgsysVersion.sh >> $fileName
+        ./getConfigurations/getKernelVersion.sh >> $fileName
+        ./getConfigurations/getMemoryInfo.sh >> $fileName
+        ./getConfigurations/getMotherBoardInfo.sh >> $fileName
+        ./getConfigurations/getNICInfo.sh >> $fileName
+        ./getConfigurations/getSensorInfo.sh >> $fileName   
 
     else
         #echo get all log
-        ./getConfigurations/getBIOSVersion.sh >> originalConfig.log
-        ./getConfigurations/getBMCVersion.sh >> originalConfig.log
-        ./getConfigurations/getBootDevice.sh >> originalConfig.log
-        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
-        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
-        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
-        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
-        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
-        ./getConfigurations/getNICInfo.sh >> originalConfig.log
-        ./getConfigurations/getSensorInfo.sh >> originalConfig.log        
+        ./getConfigurations/getBIOSVersion.sh >> $fileName
+        ./getConfigurations/getBMCVersion.sh >> $fileName
+        ./getConfigurations/getBootDevice.sh >> $fileName
+        ./getConfigurations/getCPUInfo.sh >> $fileName
+        ./getConfigurations/getgsysVersion.sh >> $fileName
+        ./getConfigurations/getKernelVersion.sh >> $fileName
+        ./getConfigurations/getMemoryInfo.sh >> $fileName
+        ./getConfigurations/getMotherBoardInfo.sh >> $fileName
+        ./getConfigurations/getNICInfo.sh >> $fileName
+        ./getConfigurations/getSensorInfo.sh >> $fileName  
     fi
 }

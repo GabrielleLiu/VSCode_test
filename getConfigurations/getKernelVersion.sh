@@ -2,11 +2,11 @@
 #source globalVariable.sh
 
 #echo System IP is $SUP_IP;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getKernelVersion >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getKernelVersion >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
 echo;
 uname -a;
 echo;
-echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getKernelVersion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getKernelVersion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo;
 echo;
