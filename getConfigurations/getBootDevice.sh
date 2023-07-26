@@ -5,7 +5,6 @@
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getBootDevice >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
 echo;
 echo -n "Pysical disk total count: ";
-echo;
 Drivesss=`lsblk -l | grep disk | awk '{print$1}'`;
 echo "${#Drivesss[*]}"; # count the number of harddrive
 for Dth in ${Drivesss}; do

@@ -1,7 +1,8 @@
 #! /bin/bash
 source globalVariable.sh
 
-function createNewLog() {
+
+function newLogTitle() {
     echo "------------------------------------------------------------------------------";
     echo "------------------------------------------------------------------------------";
     echo "Copyright (c) 2023 Foxconn. All Rights Reserved.";
@@ -11,21 +12,47 @@ function createNewLog() {
 }
 
 function config_build() {
-    # $1=0, get all log(default)
-    # $1="BIOS", no BIOS log
-    # $1="BMC", no BMC log
-    if ( $1=="0" ); then
-        echo "$1=="0"";
-    elif ( $1=="BIOS" ); then
-        echo "$1==\"BIOS\"";
-    elif ( $1=="BMC" ); then
-        echo "$1==\"BMC\"";
+    # $1=0 or other, get all log(default)
+    # $1=1 no BIOS log
+    # $1=2, no BMC log
+    newLogTitle > originalConfig.log
+    if [ $1 -eq 1 ]; then
+        #echo no BIOS log;
+        #./getConfigurations/getBIOSVersion.sh >> originalConfig.log
+        ./getConfigurations/getBMCVersion.sh >> originalConfig.log
+        ./getConfigurations/getBootDevice.sh >> originalConfig.log
+        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
+        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
+        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
+        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
+        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
+        ./getConfigurations/getNICInfo.sh >> originalConfig.log
+        ./getConfigurations/getSensorInfo.sh >> originalConfig.log    
+
+    elif [ $1 -eq 2 ]; then
+        #echo no BMC log;
+        ./getConfigurations/getBIOSVersion.sh >> originalConfig.log
+        #./getConfigurations/getBMCVersion.sh >> originalConfig.log
+        ./getConfigurations/getBootDevice.sh >> originalConfig.log
+        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
+        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
+        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
+        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
+        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
+        ./getConfigurations/getNICInfo.sh >> originalConfig.log
+        ./getConfigurations/getSensorInfo.sh >> originalConfig.log    
+
     else
-        echo "input error! Please input 0, BIOS, or BMC!";
-        config_build()
+        #echo get all log
+        ./getConfigurations/getBIOSVersion.sh >> originalConfig.log
+        ./getConfigurations/getBMCVersion.sh >> originalConfig.log
+        ./getConfigurations/getBootDevice.sh >> originalConfig.log
+        ./getConfigurations/getCPUInfo.sh >> originalConfig.log
+        ./getConfigurations/getgsysVersion.sh >> originalConfig.log
+        ./getConfigurations/getKernelVersion.sh >> originalConfig.log
+        ./getConfigurations/getMemoryInfo.sh >> originalConfig.log
+        ./getConfigurations/getMotherBoardInfo.sh >> originalConfig.log
+        ./getConfigurations/getNICInfo.sh >> originalConfig.log
+        ./getConfigurations/getSensorInfo.sh >> originalConfig.log        
     fi
-}
-
-function config_check() {
-
 }
