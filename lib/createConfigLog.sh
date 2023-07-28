@@ -18,7 +18,7 @@ function config_build() {
 
     fileName="originalConfig.log";
     if [ -n "$2" ]; then
-        fileName="$2";
+        fileName=$2;
     fi
 
     newLogTitle > $fileName
@@ -63,4 +63,4 @@ function config_build() {
     fi
 }
 
-config_build
+#config_build

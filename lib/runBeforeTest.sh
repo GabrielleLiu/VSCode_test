@@ -15,4 +15,4 @@ function clearLogs() {
     sync
 }
 
-clearLogs
+#clearLogs
