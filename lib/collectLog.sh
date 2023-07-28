@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-function collectLogs() {
+function collectLog() {
     
     if [ -n "$1" ]; then
         cat /var/log/messages > ../log/$1/var_log_messages.txt

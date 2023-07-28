@@ -14,53 +14,54 @@ function newLogTitle() {
 # config_build $1 $2
 # $1 : 1=no BIOS log, 2=no BMC log
 # $2 : assign log file name
-function config_build() {
-
-    fileName="originalConfig.log";
+function createConfigLog() {
+    
     if [ -n "$2" ]; then
-        fileName=$2;
+        file=../log/$2/configurationCheck.log;
+    else
+        file="../log/configuration.log";
     fi
 
-    newLogTitle > $fileName
+    newLogTitle > $file
     if [ -n "$1" ] && [ $1 -eq 1 ]; then
         #echo no BIOS log;
-        #./getConfigurations/getBIOSVersion.sh >> $fileName
-        ../getConfigurations/getBMCVersion.sh >> $fileName
-        ../getConfigurations/getBootDevice.sh >> $fileName
-        ../getConfigurations/getCPUInfo.sh >> $fileName
-        ../getConfigurations/getgsysVersion.sh >> $fileName
-        ../getConfigurations/getKernelVersion.sh >> $fileName
-        ../getConfigurations/getMemoryInfo.sh >> $fileName
-        ../getConfigurations/getMotherBoardInfo.sh >> $fileName
-        ../getConfigurations/getNICInfo.sh >> $fileName
-        ../getConfigurations/getSensorInfo.sh >> $fileName  
+        #./getConfigurations/getBIOSVersion.sh >> $file
+        ../getConfigurations/getBMCVersion.sh >> $file
+        ../getConfigurations/getBootDevice.sh >> $file
+        ../getConfigurations/getCPUInfo.sh >> $file
+        ../getConfigurations/getgsysVersion.sh >> $file
+        ../getConfigurations/getKernelVersion.sh >> $file
+        ../getConfigurations/getMemoryInfo.sh >> $file
+        ../getConfigurations/getMotherBoardInfo.sh >> $file
+        ../getConfigurations/getNICInfo.sh >> $file
+        ../getConfigurations/getSensorInfo.sh >> $file  
 
     elif [ -n "$1" ] && [ $1 -eq 2 ]; then
         #echo no BMC log;
-        ../getConfigurations/getBIOSVersion.sh >> $fileName
-        #./getConfigurations/getBMCVersion.sh >> $fileName
-        ../getConfigurations/getBootDevice.sh >> $fileName
-        ../getConfigurations/getCPUInfo.sh >> $fileName
-        ../getConfigurations/getgsysVersion.sh >> $fileName
-        ../getConfigurations/getKernelVersion.sh >> $fileName
-        ../getConfigurations/getMemoryInfo.sh >> $fileName
-        ../getConfigurations/getMotherBoardInfo.sh >> $fileName
-        ../getConfigurations/getNICInfo.sh >> $fileName
-        ../getConfigurations/getSensorInfo.sh >> $fileName   
+        ../getConfigurations/getBIOSVersion.sh >> $file
+        #./getConfigurations/getBMCVersion.sh >> $file
+        ../getConfigurations/getBootDevice.sh >> $file
+        ../getConfigurations/getCPUInfo.sh >> $file
+        ../getConfigurations/getgsysVersion.sh >> $file
+        ../getConfigurations/getKernelVersion.sh >> $file
+        ../getConfigurations/getMemoryInfo.sh >> $file
+        ../getConfigurations/getMotherBoardInfo.sh >> $file
+        ../getConfigurations/getNICInfo.sh >> $file
+        ../getConfigurations/getSensorInfo.sh >> $file   
 
     else
         #echo get all log
-        ../getConfigurations/getBIOSVersion.sh >> $fileName
-        ../getConfigurations/getBMCVersion.sh >> $fileName
-        ../getConfigurations/getBootDevice.sh >> $fileName
-        ../getConfigurations/getCPUInfo.sh >> $fileName
-        ../getConfigurations/getgsysVersion.sh >> $fileName
-        ../getConfigurations/getKernelVersion.sh >> $fileName
-        ../getConfigurations/getMemoryInfo.sh >> $fileName
-        ../getConfigurations/getMotherBoardInfo.sh >> $fileName
-        ../getConfigurations/getNICInfo.sh >> $fileName
-        ../getConfigurations/getSensorInfo.sh >> $fileName  
+        ../getConfigurations/getBIOSVersion.sh >> $file
+        ../getConfigurations/getBMCVersion.sh >> $file
+        ../getConfigurations/getBootDevice.sh >> $file
+        ../getConfigurations/getCPUInfo.sh >> $file
+        ../getConfigurations/getgsysVersion.sh >> $file
+        ../getConfigurations/getKernelVersion.sh >> $file
+        ../getConfigurations/getMemoryInfo.sh >> $file
+        ../getConfigurations/getMotherBoardInfo.sh >> $file
+        ../getConfigurations/getNICInfo.sh >> $file
+        ../getConfigurations/getSensorInfo.sh >> $file  
     fi
 }
 
-#config_build
+#createConfigLog

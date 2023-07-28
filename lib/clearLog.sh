@@ -2,10 +2,10 @@
 
 
 # clear all logs
-function clearLogs() {
+function clearLog() {
     # delete log file
-    rm -r ../logs
-    mkdir ../logs
+    rm -r ../log
+    mkdir ../log
 
     # clear log
     cat /dev/null > /var/log/messages

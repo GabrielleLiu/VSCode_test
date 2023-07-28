@@ -1,20 +1,6 @@
 #! /bin/bash
 #source globalVariable.sh
 
-# clear os log, ipmitool sel, gsys log before test
-function clearLogs() {
-    # 1
-    cat /dev/null > /var/log/messages
-    # 2
-    dmesg -C
-    # 3 ,Redfish
-    ipmitool sel clear
-    # 4
-    gsys eventlog clear 2>/dev/null >/dev/null
-    
-    sync # force data write into disk when it is modified
-}
-
 # use for CPU load test
 # $1: assign file category, default is CPU_Load
 function monitorSensors() {
@@ -58,24 +44,3 @@ function compareAandBdiff() {
 		printf "\n"		
 	fi
 }
-
-function dumpLogs() {
-    cat /var/log/messages > var_log_messages.txt
-    dmesg > dmesg_log.txt
-    cat dmesg_log.txt | egrep 'error|ERROR|aer|AER|ras|RAS|fail|FAIL|Critical|critical|errortype|severity' >> dmesg_summary_logs.txt
-    ipmitool sel list > ipmitool_sel_log.txt
-    SEL_awk=`cat ipmitool_sel_log.txt | grep "OEM record" | awk '{print$13}'`
-    for SEL_awk_loop in $SEL_awk; do
-        perl ampereone_bmc_sel.plx raw_pldm $SEL_awk_loop >> SEL_OEM.log
-    done
-    gsys event records list > gsys_event_log.txt
-    free > free.txt
-    echo
-}
-
-
-
-
-
-
-#config_build
