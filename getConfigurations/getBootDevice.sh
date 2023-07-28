@@ -2,7 +2,9 @@
 #source globalVariable.sh
 
 #echo System IP is $SUP_IP;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getBootDevice >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo "                                  getBootDevice";
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo -n "Pysical disk total count: ";
 Drivesss=`lsblk -l | grep disk | awk '{print$1}'`;
@@ -16,8 +18,6 @@ for Dth in ${Drivesss}; do
     smartctl -x /dev/${Dth} | egrep "(Raw_Read_Error)|(UDMA_CRC_Error_Count)|(ATTRIBUTE_NAME)";
     echo;
 done
-echo;
-echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getBootDevice <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo;
 echo;

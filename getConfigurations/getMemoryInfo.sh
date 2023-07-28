@@ -2,7 +2,9 @@
 #source globalVariable.sh
 
 #echo System IP is $SUP_IP;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getMemoryInfo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo "                                  getMemoryInfo";
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 dmidecode -t 17
 echo;
@@ -12,8 +14,6 @@ dmidecode -t 17 | grep 'Size' | grep 'GB' --count;
 echo;
 echo -n "DIMM total Size in /proc/meminfo(kb):"; 
 cat /proc/meminfo | grep 'MemTotal:' | awk '{print $2}'
-echo;
-echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getMemoryInfo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo;
 echo;

@@ -1,0 +1,11 @@
+#! /bin/bash
+#source ../lib/createConfigLog.sh
+#source ../lib/runBeforeTest.sh
+
+../lib/runBeforeTest.sh
+
+# define category name
+fileName=ConfigurationCheck
+mkdir ../logs/$fileName
+
+../lib/createConfigLog.sh > ../logs/$fileName/$fileName.log

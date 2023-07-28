@@ -2,7 +2,9 @@
 #source globalVariable.sh
 
 #echo System IP is $SUP_IP;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> getNICInfo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+echo "                                  getNICInfo";
+echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo -n "NIC total count: ";
 NIC=`ifconfig | grep Ethernet | awk '{print$1}' | egrep 'et|en|eth'`;
@@ -14,8 +16,6 @@ for Eth in ${NIC}; do
 		echo `lspci -s $DEVICE -vvv | grep "LnkSta:"`
 	done
 done
-echo;
-echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< getNICInfo <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
 echo;
 echo;
