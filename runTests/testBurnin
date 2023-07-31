@@ -7,12 +7,16 @@ source ../lib/collectLog.sh
 clearLogs
 
 # define category name
-fileName=ConfigurationCheck
+fileName=Burnin
 mkdir ../log/$fileName
 
 createConfigLog 0 $fileName
-collectLog $fileName
 
+# test main
+
+# =========
+
+collectLog $fileName
 
 #compareTwoFile "../log/configuration.log" "../log/$fileName/$fileName.log" "$fileName"
 

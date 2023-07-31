@@ -27,20 +27,3 @@ function monitorSensors() {
 	  echo "" >> $fileName/cpupower_frequency.txt
 	done
 }
-
-# $1, $2
-# echo "main.sh" | cut -d"." -f 1
-function compareAandBdiff() {
-
-    if diff "$1" "$2" -b -B >> config_verify.log; then
-		echo "Configcheck files is match" > config_match.txt						
-		echo  Compare Pass >> config_verify.log				
-		printf "\033[1;32m Conan Configcheck files is match !!! \033[0m\n"
-		printf "\n"															
-	else
-		echo "Configcheck files are different!!" > config_diff.txt
-		echo Compare Fail >> config_verify.log			
-		printf "\033[1;31m Configcheck Failed !!! \033[0m\n"
-		printf "\n"		
-	fi
-}
