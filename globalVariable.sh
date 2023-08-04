@@ -1,5 +1,16 @@
 #! /bin/bash
 
-SUP_IP="172.31.20.26" # ipmitool, Redfish
+# Please check below variable is correct
 
-SCRIPT_PATH="/usr/local/bin" # absolutely path of VSCode_test
+# getConfiguration/getBMCVersion.sh
+BMC_FW_ADDR="https://169.254.95.118:443/redfish/v1/UpdateService/FirmwareInventory/47ce0879"
+
+# lib/
+# 0= AC cycle, 1=...
+REBOOT_TYPE=0
+
+REBOOT_COUNT=200
+
+# ================================Automation part================================
+SCRIPT_PATH=$(pwd)
+#echo $SCRIPT_PATH
