@@ -10,10 +10,10 @@
 # bits.
 #
 # By default this script does nothing.
-source ../lib/clearLog.sh
-source ../lib/createConfigLog.sh
-source ../lib/collectLog.sh
-source ../lib/compareTwoFile.sh
+source ./VSCode_test/lib/clearLog.sh
+source ./VSCode_test/lib/createConfigLog.sh
+source ./VSCode_test/lib/collectLog.sh
+source ./VSCode_test/lib/compareTwoFile.sh
 
 
 function StartLogo () {
@@ -69,25 +69,25 @@ printf "\033[1;31m|_|/_/    \_\_____|______|\033[0m\n"
 #########################################(MAIN)############################################
 
 StartLogo
+fileName=SoftReboot
 
-fileName="SoftReboot"
 COUNTER=0
-if [ ! -f /home/PWR_cmd_count.txt ]; then
-	echo 0 > /home/PWR_cmd_count.txt
+if [ ! -f "/VSCode_test/log/$fileName/PWR_cmd_count.txt" ]; then
+	echo 0 > /VSCode_test/log/$fileName/PWR_cmd_count.txt
 	clearLog
 else
-	COUNTER=`cat /home/PWR_cmd_count.txt`	
+	COUNTER=`cat /VSCode_test/log/$fileName/PWR_cmd_count.txt`
 fi
 
 
 while true
 do	
 	if [ $COUNTER -lt 3 ]; then
-		echo ------------------------------------------ >> /home/power_cycle_log.txt
-		date >> /home/power_cycle_log.txt
+		echo ------------------------------------------ >> /VSCode_test/log/$fileName/power_cycle_log.txt
+		date >> /VSCode_test/log/$fileName/power_cycle_log.txt
 		COUNTER=$(($COUNTER+1))
-		echo $COUNTER > /home/PWR_cmd_count.txt
-		echo "Reboot count= $COUNTER" >> /home/power_cycle_log.txt
+		echo $COUNTER > /VSCode_test/log/$fileName/PWR_cmd_count.txt
+		echo "Reboot count= $COUNTER" >> /VSCode_test/log/$fileName/power_cycle_log.txt
 		printf "\033[1;32m Reboot count= $COUNTER \033[0m\n"
 
 		# compare config
@@ -98,19 +98,19 @@ do
 		sleep 1
 		ExitLogo
 		#fii.sh rst hotswap     ## Trigger power cycle
-		shutdown -r now
+		shutdown -r
 	else
 		printf "\033[1;32m Power Cycle Test Complete !!! \033[0m\n"
-		echo "Power Cycle Test Complete.. !!!" >> /home/power_cycle_log.txt
+		echo "Power Cycle Test Complete.. !!!" >> /VSCode_test/log/$fileName/power_cycle_log.txt
 		FinishLogo
 
 		# collect logs
 		collectLog $fileName
 
-		exit 0
+		#exit 0
 	fi
 	
 done
 
-exit 0
+#exit 0
 

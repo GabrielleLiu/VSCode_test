@@ -1,7 +1,13 @@
 #!/bin/sh
-# Setup rc-local.service
-# Edit Date=20230815
 
+# which type power cycle do you want to run
+# 1.) SoftReboot
+# TBD
+rebootType=1
+# How many times do you want to run
+rebootCycle=3
+
+# Setup rc-local.service
 echo [Unit] > /etc/systemd/system/rc-local.service
 echo Description=/etc/rc.local Compatibility  >> /etc/systemd/system/rc-local.service
 echo ConditionPathExists=/etc/rc.local >> /etc/systemd/system/rc-local.service
@@ -20,15 +26,22 @@ echo  >> /etc/systemd/system/rc-local.service
 echo [Install] >> /etc/systemd/system/rc-local.service
 echo WantedBy=multi-user.target >> /etc/systemd/system/rc-local.service
 
-systemctl daemon-reload
+if [ $rebootType -eq 1 ]
+then
+    echo "#!/bin/bash" > /etc/rc.local
+    echo test is starting ... >> /etc/rc.local
+    echo ./VSCode_test/rebootTest/softReboot.sh >> /etc/rc.local
+    echo "exit 0" >> /etc/rc.local
+fi
 
-cp rc.local /etc/
+#systemctl daemon-reload
+#cp rc.local /etc/
 sudo chmod +x /etc/rc.local
 sudo systemctl stop rc-local.service
 systemctl daemon-reload
 sudo systemctl enable rc-local
-timeout 60 systemctl start rc-local.service
+systemctl start rc-local.service
 
-
-source ../lib/createConfigLog.sh
+# create baseline configuration
+source ./VSCode_test/lib/createConfigLog.sh
 createConfigLog
