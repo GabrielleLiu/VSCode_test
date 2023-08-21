@@ -29,18 +29,25 @@ echo WantedBy=multi-user.target >> /etc/systemd/system/rc-local.service
 if [ $rebootType -eq 1 ]
 then
     echo "#!/bin/bash" > /etc/rc.local
-    echo test is starting ... >> /etc/rc.local
-    echo ./VSCode_test/rebootTest/softReboot.sh >> /etc/rc.local
+    echo "echo test is starting ..." >> /etc/rc.local
+    echo "cd /" >> /etc/rc.local
+    echo "./VSCode_test/rebootTest/softReboot.sh" >> /etc/rc.local
     echo "exit 0" >> /etc/rc.local
 fi
 
-#systemctl daemon-reload
+systemctl daemon-reload
 #cp rc.local /etc/
 sudo chmod +x /etc/rc.local
 sudo systemctl stop rc-local.service
 systemctl daemon-reload
 sudo systemctl enable rc-local
-systemctl start rc-local.service
+timeout 10 systemctl start rc-local.service
+
+cd /
+# clear log and create test file
+source ./VSCode_test/lib/clearLog.sh
+fileName=SoftReboot #---------------------------------------------------------------modify test name here
+clearLog $fileName
 
 # create baseline configuration
 source ./VSCode_test/lib/createConfigLog.sh

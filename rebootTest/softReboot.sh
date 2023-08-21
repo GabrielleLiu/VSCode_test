@@ -10,12 +10,6 @@
 # bits.
 #
 # By default this script does nothing.
-source ./VSCode_test/lib/clearLog.sh
-source ./VSCode_test/lib/createConfigLog.sh
-source ./VSCode_test/lib/collectLog.sh
-source ./VSCode_test/lib/compareTwoFile.sh
-
-
 function StartLogo () {
 printf "\033[1;34m  ______ ______   _______ ____  _   _ _   _         _____  _____ _____\033[0m\n" 
 printf "\033[1;34m |  ____/ __ \ \ / / ____/ __ \| \ | | \ | |       / ____|/ ____|_   _|\033[0m\n"
@@ -67,50 +61,56 @@ printf "\033[1;31m|_|/_/    \_\_____|______|\033[0m\n"
 
 
 #########################################(MAIN)############################################
-
 StartLogo
-fileName=SoftReboot
+
+cd /
+source ./VSCode_test/lib/clearLog.sh
+source ./VSCode_test/lib/createConfigLog.sh
+source ./VSCode_test/lib/collectLog.sh
+#source ./VSCode_test/lib/compareTwoFile.sh
+cd /VSCode_test/log/SoftReboot/
 
 COUNTER=0
-if [ ! -f "/VSCode_test/log/$fileName/PWR_cmd_count.txt" ]; then
-	echo 0 > /VSCode_test/log/$fileName/PWR_cmd_count.txt
-	clearLog
+
+if [ ! -f "PWR_cmd_count.txt" ]; then
+	echo 0 > PWR_cmd_count.txt
 else
-	COUNTER=`cat /VSCode_test/log/$fileName/PWR_cmd_count.txt`
+	COUNTER=`cat PWR_cmd_count.txt`
 fi
 
+if [ $COUNTER -lt 3 ]; then
+	echo ------------------------------------------ >> power_cycle_log.txt
+	date >> power_cycle_log.txt
+	COUNTER=$(($COUNTER+1))
+	echo $COUNTER > PWR_cmd_count.txt
 
-while true
-do	
-	if [ $COUNTER -lt 3 ]; then
-		echo ------------------------------------------ >> /VSCode_test/log/$fileName/power_cycle_log.txt
-		date >> /VSCode_test/log/$fileName/power_cycle_log.txt
-		COUNTER=$(($COUNTER+1))
-		echo $COUNTER > /VSCode_test/log/$fileName/PWR_cmd_count.txt
-		echo "Reboot count= $COUNTER" >> /VSCode_test/log/$fileName/power_cycle_log.txt
-		printf "\033[1;32m Reboot count= $COUNTER \033[0m\n"
+	# display on screen
+	echo "Reboot count is $COUNTER" >> power_cycle_log.txt
+	printf "\033[1;32m Now reboot count is $COUNTER \033[0m\n"
 
-		# compare config
-		createConfigLog 0 $fileName
-		compareTwoFile $fileName
-				
-		PwrcycleLogo
-		sleep 1
-		ExitLogo
-		#fii.sh rst hotswap     ## Trigger power cycle
-		shutdown -r
-	else
-		printf "\033[1;32m Power Cycle Test Complete !!! \033[0m\n"
-		echo "Power Cycle Test Complete.. !!!" >> /VSCode_test/log/$fileName/power_cycle_log.txt
-		FinishLogo
+	# compare config
+	createConfigLog 0 "SoftReboot"
 
-		# collect logs
-		collectLog $fileName
+	cd /
+	fileA=/VSCode_test/log/SoftReboot/configuration.log
+    fileB=/VSCode_test/log/configurationCheck.log
+    if diff "$fileA" "$fileB" -b -B >> SoftReboot/configuration_diff.log; then
+        echo "Configuration Check => Passed" >> SoftReboot/power_cycle_log.txt
+    else
+        echo "Configuration Check => Failed" >> SoftReboot/power_cycle_log.txt
+    fi
 
-		#exit 0
-	fi
-	
-done
+	PwrcycleLogo
+	sleep 1
+	ExitLogo
+	#fii.sh rst hotswap     ## Trigger power cycle
+	shutdown -r
 
-#exit 0
+else
+	printf "\033[1;32m Power Cycle Test Complete !!! \033[0m\n"
+	echo "Power Cycle Test Complete !!!" >> power_cycle_log.txt
+	FinishLogo
 
+	# collect logs
+	collectLog "SoftReboot"
+fi

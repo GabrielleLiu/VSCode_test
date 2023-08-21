@@ -16,51 +16,52 @@ function newLogTitle() {
 # $2 : assign log file name
 function createConfigLog() {
     
+    cd /
     if [ -n "$2" ]; then
-        file=../log/$2/configurationCheck.log;
+        file=/VSCode_test/log/$2/configurationCheck.log;
     else
-        file="../log/configuration.log";
+        file=/VSCode_test/log/configuration.log;
     fi
 
     newLogTitle > $file
     if [ -n "$1" ] && [ $1 -eq 1 ]; then
         #echo no BIOS log;
-        #./getConfigurations/getBIOSVersion.sh >> $file
-        ../getConfigurations/getBMCVersion.sh >> $file
-        ../getConfigurations/getBootDevice.sh >> $file
-        ../getConfigurations/getCPUInfo.sh >> $file
-        ../getConfigurations/getgsysVersion.sh >> $file
-        ../getConfigurations/getKernelVersion.sh >> $file
-        ../getConfigurations/getMemoryInfo.sh >> $file
-        ../getConfigurations/getMotherBoardInfo.sh >> $file
-        ../getConfigurations/getNICInfo.sh >> $file
-        ../getConfigurations/getSensorInfo.sh >> $file  
+        #./VSCode_test/getConfigurations/getBIOSVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getBMCVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getBootDevice.sh >> $file
+        ./VSCode_test/getConfigurations/getCPUInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getgsysVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getKernelVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getMemoryInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getMotherBoardInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getNICInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getSensorInfo.sh >> $file  
 
     elif [ -n "$1" ] && [ $1 -eq 2 ]; then
         #echo no BMC log;
-        ../getConfigurations/getBIOSVersion.sh >> $file
-        #./getConfigurations/getBMCVersion.sh >> $file
-        ../getConfigurations/getBootDevice.sh >> $file
-        ../getConfigurations/getCPUInfo.sh >> $file
-        ../getConfigurations/getgsysVersion.sh >> $file
-        ../getConfigurations/getKernelVersion.sh >> $file
-        ../getConfigurations/getMemoryInfo.sh >> $file
-        ../getConfigurations/getMotherBoardInfo.sh >> $file
-        ../getConfigurations/getNICInfo.sh >> $file
-        ../getConfigurations/getSensorInfo.sh >> $file   
+        ./VSCode_test/getConfigurations/getBIOSVersion.sh >> $file
+        #./VSCode_test/getConfigurations/getBMCVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getBootDevice.sh >> $file
+        ./VSCode_test/getConfigurations/getCPUInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getgsysVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getKernelVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getMemoryInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getMotherBoardInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getNICInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getSensorInfo.sh >> $file  
 
     else
         #echo get all log
-        ../getConfigurations/getBIOSVersion.sh >> $file
-        ../getConfigurations/getBMCVersion.sh >> $file
-        ../getConfigurations/getBootDevice.sh >> $file
-        ../getConfigurations/getCPUInfo.sh >> $file
-        ../getConfigurations/getgsysVersion.sh >> $file
-        ../getConfigurations/getKernelVersion.sh >> $file
-        ../getConfigurations/getMemoryInfo.sh >> $file
-        ../getConfigurations/getMotherBoardInfo.sh >> $file
-        ../getConfigurations/getNICInfo.sh >> $file
-        ../getConfigurations/getSensorInfo.sh >> $file  
+        ./VSCode_test/getConfigurations/getBIOSVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getBMCVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getBootDevice.sh >> $file
+        ./VSCode_test/getConfigurations/getCPUInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getgsysVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getKernelVersion.sh >> $file
+        ./VSCode_test/getConfigurations/getMemoryInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getMotherBoardInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getNICInfo.sh >> $file
+        ./VSCode_test/getConfigurations/getSensorInfo.sh >> $file  
     fi
 }
 
