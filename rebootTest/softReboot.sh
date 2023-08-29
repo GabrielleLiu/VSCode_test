@@ -68,10 +68,12 @@ source ./VSCode_test/lib/clearLog.sh
 source ./VSCode_test/lib/createConfigLog.sh
 source ./VSCode_test/lib/collectLog.sh
 #source ./VSCode_test/lib/compareTwoFile.sh
+
+# create config
+createConfigLog 0 "SoftReboot"
 cd /VSCode_test/log/SoftReboot/
 
 COUNTER=0
-
 if [ ! -f "PWR_cmd_count.txt" ]; then
 	echo 0 > PWR_cmd_count.txt
 else
@@ -89,11 +91,10 @@ if [ $COUNTER -lt 3 ]; then
 	printf "\033[1;32m Now reboot count is $COUNTER \033[0m\n"
 
 	# compare config
-	createConfigLog 0 "SoftReboot"
-
 	cd /
-	fileA=/VSCode_test/log/SoftReboot/configuration.log
-    fileB=/VSCode_test/log/configurationCheck.log
+	cd /VSCode_test/log
+	fileA=configuration.log
+    fileB=SoftReboot/configurationCheck.log
     if diff "$fileA" "$fileB" -b -B >> SoftReboot/configuration_diff.log; then
         echo "Configuration Check => Passed" >> SoftReboot/power_cycle_log.txt
     else

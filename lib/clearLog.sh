@@ -4,6 +4,7 @@
 # clear all logs
 function clearLog() {
     # delete log file
+    cd /
     rm -r /VSCode_test/log
     mkdir /VSCode_test/log
     # create test log file
