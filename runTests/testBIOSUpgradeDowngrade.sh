@@ -78,98 +78,55 @@ do
 	if [ $COUNTER -lt 3 ]; then
 
 
-		echo ------------------------------------------ >> /media/power_cycle_log.txt
-		date >> /media/power_cycle_log.txt
+		echo ------------------------------------------ >> BIOS_UP_DOWN_summary.txt
+		date >> /media/BIOS_UP_DOWN_summary.txt
 		COUNTER=$(($COUNTER+1))
-		echo $COUNTER > /media/PWR_cmd_count.txt
-		echo "AC Reboot count= $COUNTER" >> /media/power_cycle_log.txt
-		printf "\033[1;32m AC Reboot count= $COUNTER \033[0m\n"
-
-		#echo "Executed fii.sh rst hotswap Command(AC Cycle) !!!" > /media/Executed_power.log
-		printf "\033[1;32m Executed fii.sh rst hotswap Command(AC Cycle) !!! \033[0m\n"
+		echo $COUNTER > /media/BIOS_UP_DOWN_count.txt
+		echo No.$COUNTER > /media/BIOS_UP_DOWN_summary.txt
 
 		sleep 10 & PID=$!
 		while kill -0 $PID 2> /dev/null; do 
 			printf "\033[1;33m Please wait to boot to OVSS.. !!! \033[0m\n"
 			sleep 10
 		done
-		cat /var/log/obmc-console-cpu0.log | grep "localhost login:" > /media/login1.log
-		cat /var/log/obmc-console-cpu1.log | grep "localhost login:" > /media/login2.log
-
-		if [ ! -d "/media/host1_log" ]; then
-			mkdir /media/host1_log
-		fi
-		if [ ! -d "/media/host2_log" ]; then
-			mkdir /media/host2_log
-		fi
-
-		sync
-		sleep 2
-		filename1="/media/login1.log"
-		filename2="/media/login2.log"
-		# Check Host1
-		if [ -s "$filename1" ];
-		then
-			printf "\033[1;32m Host1 AC cycle boot into OVSS Successfully !!! \033[0m\n"
-			echo "Host1 AC cycle boot into OVSS Successfully !!!" >> /media/power_cycle_log.txt
-			count_temp=`cat /media/host1_count_PASS.txt`
-			echo $(($count_temp+1)) > /media/host1_count_PASS.txt
-		else
-			printf "\033[1;32m Host1 AC cycle boot into OVSS Failed!!! \033[0m\n"
-			echo "Host1 AC cycle boot into OVSS Failed!!!" >> /media/power_cycle_log.txt
-			count_temp=`cat /media/host1_count_FAIL.txt`
-			echo $(($count_temp+1)) > /media/host1_count_FAIL.txt
-			if [ ! -d "/media/host1_log/$COUNTER" ]; then
-				mkdir /media/host1_log/$COUNTER
-			fi
-			cp var/log/*.* media/host1_log/$COUNTER
-		fi
-
-		# Check Host2
-		if [ -s "$filename2" ];
-		then
-			printf "\033[1;32m Host2 AC cycle boot into OVSS Successfully !!! \033[0m\n"
-			echo "Host2 AC cycle boot into OVSS Successfully !!!" >> /media/power_cycle_log.txt
-			count_temp=`cat /media/host2_count_PASS.txt`
-			echo $(($count_temp+1)) > /media/host2_count_PASS.txt
-		else
-			printf "\033[1;32m Host2 AC cycle boot into OVSS Failed!!! \033[0m\n"
-			echo "Host2 AC cycle boot into OVSS Failed!!!" >> /media/power_cycle_log.txt
-			count_temp=`cat /media/host2_count_FAIL.txt`
-			echo $(($count_temp+1)) > /media/host2_count_FAIL.txt
-			if [ ! -d "/media/host2_log/$COUNTER" ]; then
-				mkdir /media/host2_log/$COUNTER
-			fi
-			cp var/log/*.* media/host2_log/$COUNTER
-		fi
-
-		sleep 1
 		
-		##Clear obmc-console-cpu0.log>>
-		printf "\033[1;33m Clear obmc-console-cpu0.log \033[0m\n"
-		cat /dev/null > /var/log/obmc-console-cpu0.log
-		printf "\033[1;33m Clear obmc-console-cpu1.log \033[0m\n"
-		cat /dev/null > /var/log/obmc-console-cpu1.log
-		sync
-		sleep 5
-		##Clear obmc-console-cpu0.log<<
+		cd /run/initramfs/
+		# ==== modify the file name here ====
+		oldVersion=20230805_release
+		newVersion=20230822_release
+		# ==== modify the file name here ====
+		
+		if [ $COUNTER % 2 -eq 1 ]; then
+			cp $oldVersion/athena-vanilla.bios .
+			echo Host1 BIOS was downgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
+		else
+			cd $newVersion/athena-vanilla.bios .
+			echo Host1 BIOS was Upgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
+		fi		
+		#fii-firmware-update.sh bios0 athena-vanilla.bios
+		#sleep 180
+		#fii.sh rst btn 1
+
+		echo $COUNTER % 2
+		if [ $COUNTER % 2 -eq 1 ]; then
+			cp $oldVersion/athena-vanilla.bios .
+			echo Host2 BIOS was downgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
+		else
+			cd $newVersion/athena-vanilla.bios .
+			echo Host2 BIOS was Upgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
+		fi
+		#fii-firmware-update.sh bios1 athena-vanilla.bios
+		#sleep 180
+		#fii.sh rst btn 2
 		
 		PwrcycleLogo
-		sleep 1
+		sleep 10
 		ExitLogo
 		#fii.sh rst hotswap     ## Trigger power cycle
 		#kudo.sh rst hotswap
 	else
-		printf "\033[1;32m AC Cycle Test Complete !!! \033[0m\n"
-		echo ------------------------------------------ >> /media/power_cycle_log.txt
-		echo "AC Cycle Test Complete.. !!!" >> /media/power_cycle_log.txt
-		count_host1_pass=`cat /media/host1_count_PASS.txt`
-		count_host1_fail=`cat /media/host1_count_FAIL.txt`
-		count_host2_pass=`cat /media/host2_count_PASS.txt`
-		count_host2_fail=`cat /media/host2_count_FAIL.txt`
-		echo $count_host1_pass, $count_host1_fail, $count_host2_pass, $count_host2_fail >> /media/power_cycle_log.txt
-		echo "Host1 fail rate is $count_host1_fail %" >> /media/power_cycle_log.txt
-		echo "Host2 fail rate is $count_host2_fail %" >> /media/power_cycle_log.txt
+		echo ------------------------------------------ >> /media/BIOS_UP_DOWN_summary.txt
+		echo "BIOS Upgrade and Downgrade Test Complete.. !!!" >> /media/BIOS_UP_DOWN_summary.txt
 		FinishLogo
 		exit 0
 	fi
