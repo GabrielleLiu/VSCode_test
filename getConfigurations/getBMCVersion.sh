@@ -6,8 +6,12 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 echo "                                  getBMCVersion";
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
-bmc="192.168.2.11"
-curl -u root:0penBmc -k -s  http://${bmc}/redfish/v1/Managers/bmc | grep FirmwareVer;
+bmc=ifconfig | grep bmc -A 1 | grep inet | awk -F ' ' '{print $2}' | awk -F ':' '{print $2}'
+if [ -n $bmc ];then
+    curl -u root:0penBmc -k -s  http://${bmc}/redfish/v1/Managers/bmc | grep FirmwareVer;
+else
+    echo Please check bmc inet IP setting on your host!!!
+fi
 #echo "curl -s --insecure "https://169.254.95.118:443/redfish/v1/UpdateService/FirmwareInventory/47ce0879" --header "Authorization: Basic cm9vdDowcGVuQm1j" | grep Version";
 #  "Version": "v0.10-00-kudo"
 echo;

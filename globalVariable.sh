@@ -3,7 +3,7 @@
 # Please check below variable is correct
 
 # getConfiguration/getBMCVersion.sh
-BMC_FW_ADDR="https://169.254.95.118:443/redfish/v1/UpdateService/FirmwareInventory/47ce0879"
+#BMC_FW_ADDR="https://169.254.95.118:443/redfish/v1/UpdateService/FirmwareInventory/47ce0879"
 
 # lib/
 # 0= AC cycle, 1=...

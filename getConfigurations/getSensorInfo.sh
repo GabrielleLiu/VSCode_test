@@ -1,7 +1,7 @@
 #! /bin/bash
 #source globalVariable.sh
 
-bmc=192.168.2.11
+bmc=ifconfig | grep bmc -A 1 | grep inet | awk -F ' ' '{print $2}' | awk -F ':' '{print $2}'
 function Get_sensor () {
     #echo ====================================================================================================
     echo "Redfish Sensor Inventory"
@@ -31,21 +31,24 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 echo "                                  getSensorInfo";
 echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo;
-Get_sensor > /SDR_List.txt
-echo "Number of sensors";
-cat /SDR_List.txt | awk -F ':' '{print $1,$2}'| wc -l
-echo;
+if [ -n $bmc ];then
+    Get_sensor > /SDR_List.txt
+    echo "Number of sensors";
+    cat /SDR_List.txt | awk -F ':' '{print $1,$2}'| wc -l
+    echo;
 
-echo;
-echo "Number of normal state";
-cat /SDR_List.txt | awk -F ':' '{print $3}'| grep -v 'null' | wc -l
-echo;
+    echo;
+    echo "Number of normal state";
+    cat /SDR_List.txt | awk -F ':' '{print $3}'| grep -v 'null' | wc -l
+    echo;
 
-echo;
-echo "SDR List";
-cat /SDR_List.txt | awk -F ':' '{print $1,$2}'
-echo;
-
+    echo;
+    echo "SDR List";
+    cat /SDR_List.txt | awk -F ':' '{print $1,$2}'
+    echo;
+else
+    echo Please check bmc inet IP setting on your host!!!
+fi
 echo;
 echo;
 echo;
