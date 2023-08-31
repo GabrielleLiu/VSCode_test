@@ -62,76 +62,40 @@ printf "\033[1;31m|_|/_/    \_\_____|______|\033[0m\n"
 
 
 #########################################(MAIN)############################################
+source ../lib/clearLog.sh
+source ../lib/createConfigLog.sh
+source ../lib/collectLog.sh
+source ../lib/compareTwoFile.sh
 
 cd /
 StartLogo
 
+fileName=BIOSUpandDown
 COUNTER=0
 if [ ! -f /media/BIOS_UP_DOWN_count.txt ]; then
 	echo 0 > /media/BIOS_UP_DOWN_count.txt
+	clearLog $COUNTER
+	createConfigLog
 else
 	COUNTER=`cat /media/BIOS_UP_DOWN_count.txt`
+	mkdir VSCode_test/log/$COUNTER
 fi
 
-while true
-do	
-	if [ $COUNTER -lt 3 ]; then
+# Please modify cycles in next line =====================================================
+if [ $COUNTER -lt 50 ]; then
 
+	COUNTER=$(($COUNTER+1))
+	echo $COUNTER > /media/BIOS_UP_DOWN_count.txt
 
-		echo ------------------------------------------ >> BIOS_UP_DOWN_summary.txt
-		date >> /media/BIOS_UP_DOWN_summary.txt
-		COUNTER=$(($COUNTER+1))
-		echo $COUNTER > /media/BIOS_UP_DOWN_count.txt
-		echo No.$COUNTER > /media/BIOS_UP_DOWN_summary.txt
-
-		sleep 10 & PID=$!
-		while kill -0 $PID 2> /dev/null; do 
-			printf "\033[1;33m Please wait to boot to OVSS.. !!! \033[0m\n"
-			sleep 10
-		done
-		
-		cd /run/initramfs/
-		# ==== modify the file name here ====
-		oldVersion=20230805_release
-		newVersion=20230822_release
-		# ==== modify the file name here ====
-		
-		if [ $COUNTER % 2 -eq 1 ]; then
-			cp $oldVersion/athena-vanilla.bios .
-			echo Host1 BIOS was downgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
-		else
-			cd $newVersion/athena-vanilla.bios .
-			echo Host1 BIOS was Upgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
-		fi		
-		#fii-firmware-update.sh bios0 athena-vanilla.bios
-		#sleep 180
-		#fii.sh rst btn 1
-
-		echo $COUNTER % 2
-		if [ $COUNTER % 2 -eq 1 ]; then
-			cp $oldVersion/athena-vanilla.bios .
-			echo Host2 BIOS was downgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
-		else
-			cd $newVersion/athena-vanilla.bios .
-			echo Host2 BIOS was Upgraded !!! >> /media/BIOS_UP_DOWN_summary.txt
-		fi
-		#fii-firmware-update.sh bios1 athena-vanilla.bios
-		#sleep 180
-		#fii.sh rst btn 2
-		
-		PwrcycleLogo
-		sleep 10
-		ExitLogo
-		#fii.sh rst hotswap     ## Trigger power cycle
-		#kudo.sh rst hotswap
-	else
-		echo ------------------------------------------ >> /media/BIOS_UP_DOWN_summary.txt
-		echo "BIOS Upgrade and Downgrade Test Complete.. !!!" >> /media/BIOS_UP_DOWN_summary.txt
-		FinishLogo
-		exit 0
-	fi
-	
-done
+	createConfigLog 0 $COUNTER
+	collectLog $COUNTER
+	compareTwoFile $COUNTER
+else
+	echo ------------------------------------------
+	echo "BIOS Upgrade and Downgrade Test Complete.. !!!"
+	FinishLogo
+	exit 0
+fi
 
 exit 0
 

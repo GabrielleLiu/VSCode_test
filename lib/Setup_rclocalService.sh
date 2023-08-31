@@ -19,18 +19,10 @@ echo  >> /etc/systemd/system/rc-local.service
 echo [Install] >> /etc/systemd/system/rc-local.service
 echo WantedBy=multi-user.target >> /etc/systemd/system/rc-local.service
 
-
 echo "#!/bin/bash" > /etc/rc.local
-echo "echo test is starting ..." >> /etc/rc.local
-echo "cd /" >> /etc/rc.local
-echo "./VSCode_test/runTest/testBIOSUpgradeDowngrade.sh" >> /etc/rc.local
 echo "exit 0" >> /etc/rc.local
 
-
 systemctl daemon-reload
-#cp rc.local /etc/
-sudo chmod +x /etc/rc.local
-sudo systemctl stop rc-local.service
-systemctl daemon-reload
-sudo systemctl enable rc-local
-timeout 10 systemctl start rc-local.service
+chmod +x /etc/rc.local
+systemctl enable rc-local
+#systemctl start rc-local.service
